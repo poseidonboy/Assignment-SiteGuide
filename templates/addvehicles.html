@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+        <h5 id="headng">Add Vehicle</h5>
+        </div>
+        <div class="card-body">
+            {% for fm in form %}
+                <span>{{fm.label}}{{fm}}</span>
+            {% endfor %}
+            <br>
+        <input id="addbtnid" type="submit" value="Add" class="btn btn-success">
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+   
+    <div class="card">
+        <div class="card-header">
+        <h5 id="headng">New notifications</h5>
+       
+        </div>
+        <div class="card-body">
+            <table class="table table-light tbl-noti">
+               
+                <tbody>
+                   
+                {% for nf in notifications %}
+                    <tr>
+                        <th scope="row">{{nf.notification}}<input type="button" value="Clear" id={{nf.id}} class="float-end btn btn-warning btn-sm clear-noti"> </th>
+                    </tr>
+                {% endfor %}
+                
+                </tbody>
+               
+            </table>
+        </div>
+    </div>
+{% endblock content %}

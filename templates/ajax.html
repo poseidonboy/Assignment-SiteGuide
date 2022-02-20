@@ -1,0 +1,184 @@
+<script>
+    var ws= new WebSocket('ws://127.0.0.1:8000/vehicle/')
+    var dl= new WebSocket('ws://127.0.0.1:8000/vehiclelist/')
+    var ud= new WebSocket('ws://127.0.0.1:8000/vehicleupdate/')
+    var nt= new WebSocket('ws://127.0.0.1:8000/notifications/')
+    var cn= new WebSocket('ws://127.0.0.1:8000/clearnotifications/')
+    ws.onopen= function(){
+        console.log("websocket Connected noow open")
+       
+  
+    }
+    ws.onmessage=function(event){     
+        console.log("onmessage working")
+        
+    }
+
+
+    {% comment %} notifications {% endcomment %}
+
+    nt.onopen= function(){
+        console.log("notifications noow open")
+       
+  
+    }
+    nt.onmessage=function(event){     
+        console.log("onmessage working")
+        payload=JSON.parse(event.data)
+        console.log(payload['msg'])
+        if(payload['msg']==0){
+            $("#notif").text(payload['data'])
+        }else if(payload['msg']==1){
+            $("#notif").text(payload['count'])
+            newmessage(payload['data'])
+        }
+
+            
+       
+    }
+
+
+    {% comment %} add record {% endcomment %}
+    $("#addbtnid").click(function(){
+        console.log("working button click");
+       
+  
+    
+        let name=$("#nameid").val()
+        let vno=$("#vnoid").val()
+        let speed=$("#speedid").val()
+        let avgspeed=$("#avgspeedid").val()
+        let temp=$("#tempid").val()
+        let fuel=$("#fuelid").val()
+        let engine=$("#engstatusid").val()
+    
+
+        if (name == "" || vno== "" || speed== "" || avgspeed== "" || temp== "" || fuel== "" || engine== ""){
+            console.log("incorrect input");
+        }else{
+            ws.send(JSON.stringify({
+                'name':name,
+                'vno':vno,
+                'speed':speed,
+                'avgspeed':avgspeed,
+                'temp':temp,
+                'fuel':fuel,
+                'engine':engine
+            }))
+
+            $("#nameid").val("")
+            $("#vnoid").val("")
+            $("#speedid").val("")
+            $("#avgspeedid").val("")
+            $("#tempid").val("")
+            $("#fuelid").val("")
+            $("#engstatusid").val("")
+
+        }
+
+    
+    });
+
+
+
+  
+    {% comment %} Delete record {% endcomment %}
+    
+    $("tbody").on("click", ".btn-del", function(){
+        console.log("delte btn working");
+        let vehid= $(this).attr("id");
+        vid=vehid
+        $(this).closest("tr").fadeOut();
+
+        dl.onopen= function(){
+            console.log("websocket Connected noow open")
+           
+      
+        }
+        dl.onmessage=function(event){     
+            console.log("onmessage working")
+          
+        }
+
+        dl.send(JSON.stringify({
+            'id':vid,
+            
+        }))
+    });
+
+
+    {% comment %} edit record {% endcomment %}
+  
+    $("#updatevehi").click(function(){
+    
+        console.log("update working")
+
+       
+        let vid=$("#vehiid").val()
+        let name=$("#nameid").val()
+        let vno=$("#vnoid").val()
+        let speed=$("#speedid").val()
+        let avgspeed=$("#avgspeedid").val()
+        let temp=$("#tempid").val()
+        let fuel=$("#fuelid").val()
+        let engine=$("#engstatusid").val()
+
+        if (name == "" || vno== "" || speed== "" || avgspeed== "" || temp== "" || fuel== "" || engine== ""){
+            console.log("incorrect input");
+        }else{
+            ud.send(JSON.stringify({
+                'vid':vid,
+                'name':name,
+                'vno':vno,
+                'speed':speed,
+                'avgspeed':avgspeed,
+                'temp':temp,
+                'fuel':fuel,
+                'engine':engine
+            }))
+
+
+        }
+
+    
+    });
+
+
+    function newmessage(message)
+    {
+        const contid = document.getElementById('noty')
+        var message_element= document.getElementById('messagetem').content
+        var msg_element=document.importNode(message_element, true)
+        msg_element.querySelector(".mssg").textContent= message
+        contid.append(msg_element)
+    }
+
+    $("div").on("click", ".btn-close", function(){
+        $(this).closest("#noty").fadeOut();
+    });
+
+
+    $("div").on("click", ".clear-noti", function(){
+        let vehid= $(this).attr("id");
+        vid=vehid
+        $(this).closest("tr").fadeOut();  
+       
+        
+
+        cn.send(JSON.stringify({
+            'id':vid,
+            
+        }))
+    });
+
+    
+    {% comment %} $("#clearnoti").click(function(){
+     
+        var cn= new WebSocket('ws://127.0.0.1:8000/clearnotifications/')
+
+
+
+    }); 
+     {% endcomment %}
+
+</script>

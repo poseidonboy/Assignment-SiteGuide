@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="circle"></div>
+            </div>
+            <div class="col-sm-4">
+                <div class="camera text-center tcolor fw-bold">Camera 1</div>
+            </div>       
+            <div class="col-sm-4">
+                <div class="camera  text-center tcolor fw-bold">Camera 2</div>
+            </div>
+            <div class="col-sm-2">
+                <div><label class="switch"><input type="checkbox"><span class="slider round"></span></label></div> 
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="rectang text-center tcolor fw-bold"><img src="{% static 'images/ki.jpg' %}" alt=""></div>
+            </div>
+            <div class="col-sm-4">
+                <div class="rectangsmall text-center tcolor fw-bold">speed: {{data.speed}}km/hr</div><br>
+                <div class="rectangsmall text-center tcolor fw-bold">Avg Speed: {{data.avgspeed}}km/hr</div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="rectangsmall text-center tcolor fw-bold">Engine Status: {{data.enginestatus}}</div>
+            </div>
+            <div class="col-sm-4">
+                <div class="rectangsmall text-center tcolor fw-bold">Fuel: {{data.fuellevel}}%</div>
+            </div>
+            <div class="col-sm-4">
+                <div class="rectangsmall text-center tcolor fw-bold">Temperature: {{data.temperature}} celcius</div>
+            </div>
+        </div>
+    </div>
+       
+       
+    </div>
+{% endblock content %}
+

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+        <h5 id="headng">Update vehicle</h5>
+        </div>
+        <div class="card-body">
+            {% for f in fm %}
+                <span>{{f.label}}{{f}}</span>
+            {% endfor %}
+             <br>
+            <input hidden type="text" id="vehiid" value={{id}}>
+        <input id="updatevehi" type="submit" value="Update" class="btn btn-success">
+        </div>
+    </div>
+   
+{% endblock content %}
